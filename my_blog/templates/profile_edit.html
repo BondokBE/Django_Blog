@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load markdown_deux_tags %}
+{% load crispy_forms_tags %}
+
+
+{% block head_title %}
+    Edit profile
+{% endblock head_title %}
+
+
+{% block content %}
+
+
+    <section class="profile profile_edit">
+        
+        <div class="container">
+            <div class="content">
+                <div class="card">
+                    <h2 class="card-header text-white bg-dark"><i class="fas fa-user"></i> {{ user.username }}</h2>
+                    
+                    <div class="profile_pic">
+                        <img class="img-fluid" src="{{ user.profile.image.url }}">
+                    </div><!-- profile_pic -->
+                    <hr>
+                    <div class="card-body">
+                        <form method="POST" action="" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ u_form | crispy }}
+                            {{ p_form | crispy }}
+                            
+                            <input type='submit' value="Update" class="btn btn-primary">&nbsp;
+                            <a class="btn btn-secondary" href="{% url 'accounts:profile' %}">Cancel</a>
+                        </form>
+                    </div>
+                
+                </div><!-- card -->
+
+            </div><!-- content -->
+        </div><!-- container -->
+    </section>    
+
+
+{% endblock content %}
+    
+
+{% block footer %}
+    
+{% endblock footer %}
+

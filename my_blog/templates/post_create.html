@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+        {% block head_title %}
+            Create/Edit Post
+        {% endblock head_title %}
+            
+            
+        {% block extra_head %}
+            {{ form.media }}
+        {% endblock extra_head %}
+
+
+        {% block content %}
+            <!--============ header ==============================-->
+    
+            <header id="header" class="masthead" style="background-image: url({% static 'img/home3.jpg' %})">
+                <div class="overlay"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-10 mx-auto">
+                            <div class="site-heading">
+                                <div class="header_overlay">
+                                    <h1>BondokBE</h1>
+                                    <span class="subheading">Belal Abdulnasser blog</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            
+        <!--============ Post Create Form ==============================-->
+        
+        <section id="post_create">
+            <div class="container">
+                <div class="text-center">
+                    <h2>Create A New Post</h2><br>
+                </div>
+                <div class="content_preview">
+                    <h2 id="preview_title">Some Title</h2>
+                    <br><hr>
+                    <p id="preview_content">Some Content</p>
+                </div>
+                <br>
+                <br>
+                <div class="post_create">
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        <!-- csrf -->
+                        {% csrf_token %}
+                        {{ form | crispy }}
+
+                        <input type="submit" value="Save Post" class="btn btn-primary">
+                        <a href="{% url 'posts:base' %}" class="btn btn-primary">Cancel</a>
+                            
+                    </form>
+                    <br>
+                </div><!-- post_create -->
+                
+            </div><!-- container -->
+        </section><!-- post create -->
+
+      {% endblock content %}

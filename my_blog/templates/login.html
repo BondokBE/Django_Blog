@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block head_title %}
+    {{ title }}
+{% endblock head_title %}
+
+
+{% block navbar %}
+
+{% endblock navbar %}
+
+    {% block content %}
+        <section id="forms">
+            <div class="container">
+                <div class="row">
+                    
+                    <div class="login-box">
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                    {{ message }} <i class="fas fa-arrow-down"></i>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <div class="lb-header text-center">
+                            <label class="active" id="login-box-link">Login</label>
+                        </div><!-- header -->
+
+                        <!--<div class="social-login pl-5">
+                            <a href="#">
+                                <i class="fab fa-facebook-f fa-lg"></i> Login by facebook
+                            </a>
+                            <a href="#">
+                                <i class="fab fa-google fa-lg"></i> login by Google
+                            </a>
+                        </div> social logins -->
+
+                        <form class="email-login text-center" method="POST" action="">
+
+                            {% csrf_token %}
+                            {{ login_form | crispy }}
+                            
+                            <input type="submit" value="Login" class="btn btn-primary" style="width:200px">
+                            <br>
+                            <br>
+                            <!-- <div class="u-form-group">  
+                                <a href="#" class="forgot-password">Forgot password?</a>
+                            </div> -->
+                            
+                            <div class="u-form-group">
+                                Not a member?, <a href="{% url 'accounts:register' %}" style="color: #09f">Register Now</a>
+                            </div>
+                        </form><!-- form login -->
+
+                    </div><!-- login-box -->
+
+                </div><!-- row -->
+            </div><!-- container -->
+        </section>
+    {% endblock content %}
+    
+
+{% block footer %}
+    
+{% endblock footer %}
+    
+
+

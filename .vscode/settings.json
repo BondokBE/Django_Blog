@@ -1,0 +1,5 @@
+{
+    "python.linting.pylintEnabled": true,
+    "python.pythonPath": "C:\\Anaconda3\\envs\\my_blog\\python.exe",
+    "editor.fontSize": 16
+}

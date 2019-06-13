@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load markdown_deux_tags %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}
+    {{ comment.content | truncatechars:12 }} | {{ block.super }}
+{% endblock head_title %}
+
+{% block content %}
+
+    <section class="comment_thread" style="margin-top: 150px;padding: 10px 0;min-height: 800px;">
+        <div class="container">
+            <h2 class="text-secondary">Delete Confirmation:</h2>
+            <hr>
+            <div class="row">
+                <div class="comment_section offset-sm-1 col-sm-8">
+                    <!-- Single Comment thread -->
+                    <div class="media mb-4">
+                        <div class="row">
+                            <form action="." method="POST" class="col-sm-12">
+                                {% csrf_token %}
+                                <p class="lead">> Are your sure you wanna delete this comment ?</p>
+                                
+                                {% if user.is_authenticated  and request.user == comment.user or request.user.is_superuser %}
+                                    
+                                <input type="submit" value="Delete" class="btn btn-danger">
+                                {% else %}
+                                <p>You must be logged in to delete</p>
+                                {% endif %}
+                                <a href="{{ parent.get_absolute_url }}" class="btn btn-secondary">Cancel</a>
+                            </form>
+                            <br>
+                            <div class="media-body col-sm-12">
+                                <hr>
+                                <img class="mr-3 rounded" src="http://placehold.it/35x35" alt="">
+                                <span class="mt-0" style="font-size: 18px;">{{ comment.user }}:</span> 
+                                <div class="content">
+                                    <p class="lead">{{ comment.content | markdown }}</p>
+                                </div>
+                                {{ child }}
+                                <br>
+                            </div>
+                        </div><!-- inner row -->
+                        
+                    </div><!-- media -->
+
+                </div><!-- comment_section -->  
+            </div><!-- row -->
+        </div><!-- container -->
+    </section>
+
+{% endblock content %}

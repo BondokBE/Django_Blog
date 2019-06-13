@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block head_title %}
+    {{ title }}
+{% endblock head_title %}
+
+
+{% block navbar %}
+
+{% endblock navbar %}
+
+    {% block content %}
+        <section id="forms">
+            <div class="container">
+                <div class="row">
+
+                    <div class="signup-box">
+                        <div class="lb-header text-center">
+                            <label class="active" id="login-box-link">Register New Account</label>
+                        </div><!-- header -->
+
+                        <!--<div class="social-login pl-5">
+                            <a href="#">
+                                <i class="fab fa-facebook-f fa-lg"></i>&nbsp; Register by facebook
+                            </a>
+                            <a href="#">
+                                <i class="fab fa-google fa-lg"></i>&nbsp; Register by Google
+                            </a>
+                        </div><!-- social logins -->
+
+                        <form class="email-signup text-center" method="POST" action="">
+
+                            {% csrf_token %}
+                            {{ register_form | crispy }}
+                            
+                            <input type="submit" value="Register" class="btn btn-primary" style="width:200px">
+                            <br>
+                            <br>
+                            
+                            <div class="u-form-group">
+                                Already a member?, <a href="{% url 'accounts:login' %}" style="color: #09f">Login</a>
+                            </div>
+                        </form><!-- form login -->
+
+                    </div><!-- login-box -->
+
+                </div><!-- row -->
+            </div><!-- container -->
+        </section>
+    {% endblock content %}
+    
+
+{% block footer %}
+    
+{% endblock footer %}
+    
+
+

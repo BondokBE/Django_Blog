@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+{% load static %}
+{% load hitcount_tags %}
+{% load markdown_deux_tags %}
+
+<html>
+    <head>
+        <!-- blog title -->
+        <title>{% block head_title %}BondokBE {% endblock head_title %}</title>
+        <!-- fave icon -->
+		<link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+        <!-- meta tags -->
+        <meta charset="utf-8" />
+        <!-- Author Meta -->
+		<meta name="author" content="colorlib">
+		<!-- Meta Description -->
+		<meta name="description" content="">
+		<!-- Meta Keyword -->
+        <meta name="keywords" content="">
+        <!-- IE Browser -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- mobile specific meta -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--============ css files ==============================-->
+        <!-- google fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700" rel="stylesheet">
+
+        <!-- font-awesome -->
+        
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/solid.css" integrity="sha384-r/k8YTFqmlOaqRkZuSiE9trsrDXkh07mRaoGBMoDcmA58OHILZPsk29i2BsFng1B" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/regular.css" integrity="sha384-IG162Tfx2WTn//TRUi9ahZHsz47lNKzYOp0b6Vv8qltVlPkub2yj9TVwzNck6GEF" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/brands.css" integrity="sha384-BKw0P+CQz9xmby+uplDwp82Py8x1xtYPK3ORn/ZSoe6Dk3ETP59WCDnX+fI1XCKK" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/fontawesome.css" integrity="sha384-4aon80D8rXCGx9ayDt85LbyUHeMWd3UiBaWliBlJ53yzm9hqN21A+o1pqoyK04h+" crossorigin="anonymous">
+        
+        <!-- bootstrap 4 -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+        <!-- prism.cc -->
+        <!-- <link rel="stylesheet" href="{% static 'css/prism.css' %}"> -->
+
+        <!-- main style -->
+        <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+
+        
+        {% block extra_head %}
+            
+        {% endblock extra_head %}
+            
+        
+    </head>
+    <body>
+
+        
+        {% block navbar %}
+                 
+        <!-- ============ navbar ============================== -->
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                
+                <!-- brand -->
+                <div class="brand">
+                    <a class="navbar-brand" href="{% url 'posts:base' %}">BondokBE</a>
+                </div>
+
+                <!-- search -->
+                <div class="search">
+                    <form method="GET" action="" class="input-group">
+                        <input name="q" value="{{ request.GET.q }}" class="form-control" type="text" placeholder="Search for..">
+                        <span class="input-group-btn">
+                            <input type="button" class="btn btn-primary" value="Go">
+                        </span>
+                    </form>
+                </div>
+                
+                <!-- mobile responsive button -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- navbar links -->
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'posts:base' %}">Home</a>
+                            <span class="sr-only">(current)</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'posts:about' %}">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'posts:contact' %}">Contact</a>
+                        </li>
+                        
+                        {% if request.user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-warning" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{% url 'accounts:profile' %}">Profile</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{% url 'accounts:logout' %}">Log Out</a>
+                                </div>
+                            </li>   
+                        {% else %}    
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+
+                </div><!-- collapse -->
+            </div>
+        </nav>
+            
+        {% endblock navbar %}
+        
+        {% block content %}
+            
+        
+        <!--============ header ==============================-->
+
+        <header id="header" class="masthead" style="background-image: url({% static 'img/home3.jpg' %})">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-10 mx-auto">
+                        <div class="site-heading">
+                            <div class="header_overlay">
+                                <h1>BondokBE</h1>
+                                <span class="subheading">Belal Abdulnasser blog</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!--============ site content ==============================-->
+
+        <section class="site_content">
+
+            <!-- container -->
+            <div class="container">
+                <div class="row">
+            
+                    <!-- Blog posts 8-Column -->
+                    <div class="col-lg-9 articles m-auto">
+                        
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <!-- create Post -->
+                        {% if request.user.is_authenticated %} <!--  and request.user.is_superuser or request.user.is_staff -->
+                        <hr>
+                            <div style="margin-bottom: 10px;text-align: center; background:#fff; padding: 10px 0;">
+                                <!-- <a href="{{ create }}" class="btn btn-primary" target="_blank">Create New Post</a> -->
+                                <!-- the same link using  url ''  -->
+                                <a href="{% url 'posts:post_create' %}" class="btn btn-primary" target="_blank">Create New Post</a>
+                            </div>
+                        <hr>
+                        {% endif %}
+
+                        <div class="base_title">
+                            <h1 class="my-4 latest_title">Latest Articles</h1>
+                            <div class="text-center" style="margin-bottom: 10px">
+                                <i class="fa fa-angle-double-down fa-2x"></i>
+                            </div>
+                        </div>
+                        
+                        {% for post in  posts %}
+                            
+                        <!-- Blog Post -->
+                        <div class="card mb-4 post">
+                            {% if post.image %}
+                            <img class="card-img-top post_img" src="{{ post.image.url }}" alt="Card image cap">
+                            {% endif %}
+
+                            <div class="card-body">
+                                <a href="{{ post.get_absolute_url }}" class="card-title">{{ post.title }}</a><br>
+                                <hr>
+                                <h5><span><i class="fa fa-user"></i>&nbsp; By: {{ post.user.get_full_name }}</h5>
+                                <hr>
+                                {% if post.draft %}
+                                    <span class="btn btn-warning">Draft</span>
+                                {% endif %}
+                                <p class="card-text">{{ post.get_markdown | truncatechars_html:320 }}</p>
+                                <br>
+                                <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <i class="fa fa-calendar-alt"></i>&nbsp;<span class="date">{{ post.time_stamp | timesince }} ago </span>&nbsp;
+                                <!-- <span class="views_n">| <i class="fa fa-eye"></i> 235</span>&nbsp;&nbsp; -->
+                                <span class="time_reading">
+                                    | <i class="far fa-clock"></i>&nbsp;Read Time: {% if post.read_time < 1 %} less than 1 Minute {% else %} {{ post.read_time }} Minute {% endif %}
+                                </span>
+                            </div>
+                        </div><!-- Blog Post --> 
+                        
+                        {% endfor %}
+                        
+                        <!-- pagination -->
+                        <br>
+                        <div class="pagination">
+                            <span class="step-links">
+                                {% if posts.has_previous %}
+                                    <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="btn-primary">&laquo; first</a>
+                                    <a href="?page={{ contacts.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="btn-primary">previous</a>
+                                {% endif %}
+                        
+                                <span class="current">
+                                    Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+                                </span>
+                        
+                                {% if posts.has_next %}
+                                    <a href="?page={{ posts.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="btn-primary">next</a>
+                                    <a href="?page={{ posts.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="btn-primary">last &raquo;</a>
+                                {% endif %}
+                            </span>
+                        </div>
+                        
+                    </div><!-- posts col-8 -->
+
+                    
+                    <!-- Sidebar Widgets C-3 -->
+                    <div class="col-lg-3 side_bar">
+                        <!-- Search Widget -->
+                        <div class="card my-4 d-block d-sm-none">
+                            <h5 class="card-header text-white bg-dark"><i class="fa fa-search fa-sm fa-rotate-90"></i>&nbsp;Search</h5>
+                            <div class="card-body">
+                                <form method="GET" action="" class="input-group">
+                                    <input name="q" value="{{ request.GET.q }}" class="form-control" type="text" placeholder="Search for..">
+                                    <span class="input-group-btn">
+                                        <input type="button" class="btn btn-primary" value="Go">
+                                    </span>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- including side bar -->
+
+                        
+                    </div><!-- side bar -->
+
+                </div><!-- row -->
+            </div><!-- container -->
+            
+        </section><!-- site content -->        
+        
+        {% endblock content %}
+        
+        {% block footer %}
+
+        <!-- Footer -->
+        <footer class="py-3 bg-dark footer">
+            <div class="container">
+                <div class="content text-center">
+                    
+                    <span class="m-0 text-center text-white">Copyright &copy; BondokBE <script>document.write(new Date().getFullYear());</script></span>
+                    &nbsp;&nbsp;&nbsp;
+                    <!-- social links -->
+                    <a href="https://plus.google.com/112469053053330707668" target="_blank" class="m-1">
+                        <img src="{% static 'img/google-plus.png' %}">
+                    </a>
+                    <a href="https://twitter.com/bondokbe" target="_blank" class="m-1">
+                        <img src="{% static 'img/twitter.png' %}">
+                    </a>
+                    <a href="https://github.com/BondokBE" target="_blank" class="m-1">
+                        <img src="{% static 'img/github.png' %}">
+                    </a>
+                    <a href="https://www.linkedin.com/in/belal-abdulnasser-b637aab6/" target="_blank" class="m-1">
+                        <img src="{% static 'img/linkedin.png' %}">
+                    </a>
+                    <a href="https://www.facebook.com/BelalAbdulnasser" target="_blank" class="m-1">
+                        <img src="{% static 'img/facebook.png' %}">
+                    </a>
+                </div><!-- row -->
+            </div><!-- container -->
+        </footer>
+        
+        {% endblock footer %}
+            
+
+
+
+        <!--============ scripts ==============================-->
+
+        <!-- jquery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <!-- popper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+        <!-- bootstrap 4 js -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+        <!-- marked js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.0/marked.min.js"></script>
+
+        <!-- main script -->
+        <script src="{% static 'js/main.js' %}"></script>
+
+
+    </body>
+
+</html>

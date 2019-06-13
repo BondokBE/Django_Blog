@@ -1,0 +1,82 @@
+{% load static %}
+
+    <!-- Email List -->
+    <div class="card my-4">
+        <h5 class="card-header text-white bg-dark"><i class="fas fa-envelope"></i>&nbsp; Join our mailing list</h5>
+        <div class="card-body">
+            <p>Keep updated with our latest articles and news</p>
+            <form method="GET" action="" class="input-group">
+                <input name="q" value="{{ request.GET.q }}" class="form-control" type="text" placeholder="Enter your email">
+                <span class="input-group-btn">
+                    <input type="button" class="btn btn-primary" value="Join">
+                </span>
+            </form>
+        </div><!-- card-body -->
+    </div><!-- card -->
+
+    <!-- Most Popular Widget -->
+    <div class="card my-4">
+        <h5 class="card-header text-white bg-dark">Most Popular</h5>
+        <div class="card-body">
+            <div class="most_popular">
+                <ul class="list-unstyled mb-0">
+                    <li>
+                        <a href="#">Web Design</a><br>
+                        <i class="fa fa-calendar-alt"></i>&nbsp; <span>January 1, 2019</span>
+                        &emsp;<i class="fa fa-eye"></i>&nbsp; <span class="views_n">235</span>
+                    </li>
+                    <li>
+                        <a href="#">Web Design</a><br>
+                        <i class="fa fa-calendar-alt"></i>&nbsp; <span>January 1, 2019</span>
+                        &emsp;<i class="fa fa-eye"></i>&nbsp; <span class="views_n">235</span>
+                    </li>
+                    <li>
+                        <a href="#">Web Design</a><br>
+                        <i class="fa fa-calendar-alt"></i>&nbsp; <span>January 1, 2019</span>
+                        &emsp;<i class="fa fa-eye"></i>&nbsp; <span class="views_n">235</span>
+                    </li>
+                    <li>
+                        <a href="#">Web Design</a><br>
+                        <i class="fa fa-calendar-alt"></i>&nbsp; <span>January 1, 2019</span>
+                        &emsp;<i class="fa fa-eye"></i>&nbsp; <span class="views_n">235</span>
+                    </li>
+                    <li>
+                        <a href="#">Web Design</a><br>
+                        <i class="fa fa-calendar-alt"></i>&nbsp; <span>January 1, 2019</span>
+                        &emsp;<i class="fa fa-eye"></i>&nbsp; <span class="views_n">235</span>
+                    </li>
+                    <li>
+                        <a href="#">Web Design</a><br>
+                        <i class="fa fa-calendar-alt"></i>&nbsp; <span>January 1, 2019</span>
+                        &emsp;<i class="fa fa-eye"></i>&nbsp; <span class="views_n">235</span>
+                    </li>
+                </ul>
+            </div><!-- most_popular -->
+        </div><!-- card body -->
+    </div><!-- card my-4 -->
+
+    <!-- Social Links Widget -->
+    <div class="social card my-4">
+        <h5 class="card-header text-white bg-dark">Social Links</h5>
+        <div class="social_links px-4 py-3 text-center">
+            <a href="https://plus.google.com/112469053053330707668" target="_blank" class="m-1">
+                <img src="{% static 'img/google-plus.png' %}">
+            </a>
+            <a href="https://twitter.com/bondokbe" target="_blank" class="m-1">
+                <img src="{% static 'img/twitter.png' %}">
+            </a>
+            <a href="https://github.com/BondokBE" target="_blank" class="m-1">
+                <img src="{% static 'img/github.png' %}">
+            </a>
+            <a href="https://www.linkedin.com/in/belal-abdulnasser-b637aab6/" target="_blank" class="m-1">
+                <img src="{% static 'img/linkedin.png' %}">
+            </a>
+            <a href="https://www.facebook.com/BelalAbdulnasser" target="_blank" class="m-1">
+                <img src="{% static 'img/facebook.png' %}">
+            </a>
+        </div>
+    </div>
+
+
+
+

@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load markdown_deux_tags %}
+{% load crispy_forms_tags %}
+
+
+    {% block head_title %}
+    {{ post.title }} | {{ block.super }}
+    {% endblock head_title %}
+        
+    {% block content %}
+
+        <!--============ site content ==============================-->
+
+        <div class="site_content">
+            <div class="container">
+                <div class="row">
+                    
+                    <!-- Post Content C-8 -->
+                    <div class="col-md-10 main_post">
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        <div class="post_content">
+
+                            <!-- title -->
+                            <h2 class="card-text">{{ post.title }}</h2>
+                            <hr>
+
+                            <!-- Date/Time -->
+                            <i class="fa fa-calendar-alt"></i>&nbsp; <span>Posted: {{ post.publish }}</span>&nbsp;
+                            <span class="time_reading">
+                                | <i class="far fa-clock"></i>&nbsp;Read Time: {% if post.read_time < 1 %} less than 1 Minute {% else %} {{ post.read_time }} Minute {% endif %}
+                            </span>
+                            <!-- <br> -->
+                            <!-- {% if post.user.get_full_name %} -->
+                            <span>| <i class="fa fa-user"></i>&nbsp; By: {{ post.user.get_full_name }}</span>
+                            <!-- {% endif %} -->
+                            <hr>
+                            
+                            {% if post.draft %}
+                            <div class="btn btn-warning">Draft! {{ post.publish }}</div><br>
+                            <hr>
+                            {% endif %}
+                                
+                            <!-- Preview Image -->
+                            {% if post.image %}
+                                <img class="img-fluid rounded post_img" src="{{ post.image.url }}" alt="">
+                            {% endif %}
+                            <hr>
+                
+                            <!-- Post Content -->
+                            
+                            {# path: {% url 'posts:post' id=post.id %} #}<!-- <br> -->
+                            <!--it will giv you the path -->
+        
+                            <div class="card-text" id="content_markdown">{{ post.get_markdown }}</div>
+                            <hr>
+                            <p class="card-text">Last Update: {{ post.updated | timesince }} ago</p>
+                            <hr>
+                            <!-- edit post -->
+                            {% if request.user.is_authenticated and post.user == request.user or request.user.is_superuser %}
+                            
+                                <div style="margin-bottom: 20px;">
+                                    <a href="{{ post.edit_url }}" class="btn btn-primary">Edit Post</a>
+                                </div>
+
+                            {% endif %}
+                            <!-- delete post -->
+                            {% if request.user.is_authenticated and post.user == request.user or request.user.is_superuser %}
+                                <button class="btn btn-primary" id="delete_button">Delete Post</button>
+                                <br>
+                                <br>
+
+
+                                <div class="card p-2" id="delete_post" style="margin-bottom: 20px;">
+                                    <div class="card-header">Are you sure to delete post?</div><br>
+                                    <a href="{{ post.delete_url }}" class="btn btn-danger m-2">Delete Post</a>
+                                </div>
+                                <hr>
+                            {% endif %}
+                                
+                            
+                            <div class="share_links">
+                                <span class="lead">Share post:</span>
+                                <div class="s_link">
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank">
+                                        <img src="{% static 'img/facebook.png' %}">
+                                    </a>
+                                </div>
+                                <div class="s_link">
+                                    <a href="https://twitter.com/home?status={{ share_string }}%20{{ request.build_absolute_uri }}" target="_blank">
+                                        <img src="{% static 'img/twitter.png' %}">
+                                    </a>
+                                </div>
+                                <div class="s_link">
+                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ post.title }}&summary={{ share_string }}&source={{ request.build_absolute_uri }}" target="_blank">
+                                        <img src="{% static 'img/linkedin.png' %}">
+                                    </a>
+                                </div>
+                            </div><!-- share links -->
+
+                        </div><!-- post_content -->
+                            
+                        
+                        <hr>
+                        <br>
+                        <div class="comment_section">
+
+                            {% if user.is_authenticated %}
+                            <!-- Comments Form -->
+                            <div class="card my-4">
+                                <div class="card-header">    
+                                    <h5>Leave a Comment:</h5>
+                                    <small>Code must be tabbed!. You can use marked content </small>
+                                </div>
+                                <div class="card-body">
+                                    <form method="POST" action="." class="main_comment">
+                                        {% csrf_token %}
+                                        {{ comment_form | crispy }}
+                                        <input type="submit" class="btn btn-primary" value="Post Comment">
+                                    </form>
+                                </div>
+                            </div>
+                            <hr>
+                            {% else %}
+                            <p>You must login to post a comment</p>
+                            <a class="btn btn-primary" href="{% url 'accounts:login' %}" style="margin-bottom: 15px;">Login</a>
+                            {% endif %}
+                            
+                            {% if comments.count > 0 %}
+                            <span class="badge badge-warning" style="margin-bottom: 20px; font-size: 16px;">Comments: {{ comments.count }}</span>
+                            {% endif %}
+
+                            <!-- show comments -->
+                                
+                            {% for comment in comments %}
+                                <!-- Single Comment -->
+                                <hr>
+                                <div class="media mb-4">
+                                    <hr>
+                                    <img class="d-flex mr-3 rounded user_image" src="{{ comment.user.profile.image.url }}" alt="user-image">
+                                    <div class="media-body">
+                                        <h5 class="mt-0">{{ comment.user }}:</h5> 
+                                        <div class="content">
+                                            <p class="lead">{{ comment.content | markdown }}</p>
+                                        </div>
+                                        
+                                        <div class="links">
+                                            <!-- <a href="#" class="badge badge-primary" id="like">like</a>&nbsp;&nbsp; -->
+
+                                            {% if user.is_authenticated %}
+                                            <!-- replay comment -->
+                                            <a href="#" class="badge badge-primary" id="reply_comment">Reply</a>&nbsp;&nbsp;
+                                            {% endif %}
+
+                                            {% if user.is_authenticated  and request.user == comment.user or request.user.is_superuser %}
+                                            <!-- delete comment -->
+                                            <a href="{{ comment.delete_url }}" class="badge badge-danger">Delete</a>&nbsp;&nbsp;
+                                            {% endif %}
+
+                                            <!-- comment thread -->
+                                            <a href="{{ comment.get_absolute_url }}" class="badge badge-info" target="_blank">Comment Thread</a>&nbsp;&nbsp;
+                                            <!-- time stamp -->
+                                            <i class="fa fa-angle-right"></i>&nbsp;
+                                            <small>{{ comment.time_stamp }}</small>
+                                            &nbsp;
+                                            
+                                            <!-- # of replies -->
+                                            {% if comment.children.count > 0 %}
+                                            <span class="badge badge-warning">replies: {{ comment.children.count }}</span>
+                                            {% endif %}
+                                                
+                                        </div>
+
+                                       <!-- reply form -->
+                                        
+                                        {% if user.is_authenticated %}
+                                        
+                                        <form method="POST" action="" id="reply_form">
+                                            {% csrf_token %}
+                                            {{ comment_form | crispy }}
+                                            <input type="hidden" name="parent_id" value='{{ comment.id }}'>
+                                            <input type="submit" class="btn btn-primary" value="Post Reply">
+                                        </form><!-- reply_form -->
+                                        
+                                        {% else %}
+                                        <p>You must login to post a reply</p>
+                                        {% endif %}
+
+                                        <!-- reply content -->
+                                        
+                                        {% for child_comment in comment.children %}
+                                        <hr>
+                                            <div class="media mt-4 replay_cont">
+                                                <img class="d-flex mr-3 rounded" src="http://placehold.it/35x35" alt="">
+                                                <div class="media-body">
+                                                    <h5 class="mt-0">{{ child_comment.user }}</h5> 
+                                                    <div class="content">
+                                                        <p class="lead">{{ child_comment.content | markdown }}</p>
+                                                    </div>
+                                                    <div class="links">
+                                                        <!-- <a href="#" class="badge badge-primary" id="like">like</a>&nbsp;&nbsp; -->
+                                                        <!-- {% if user.is_authenticated  and request.user == child_comment.user or request.user.is_superuser %}
+                                                        <a href="{{ comment.delete_url }}" class="badge badge-danger">Delete</a>&nbsp;&nbsp;
+                                                        {% endif %} -->
+                                                        <i class="fa fa-angle-right"></i>&nbsp;
+                                                        <small>{{ child_comment.time_stamp }}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+
+                                    </div><!-- media-body -->
+                                </div><!-- media -->
+                            {% endfor %}
+
+                        </div><!-- comment_section -->
+
+                    </div><!-- main_post col-8 -->                   
+
+                </div><!-- row -->
+            </div><!-- container -->
+        </div><!-- site content -->
+
+    {% endblock content %}

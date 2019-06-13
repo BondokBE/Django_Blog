@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load markdown_deux_tags %}
+{% load crispy_forms_tags %}
+
+
+{% block head_title %}
+    {{ user.username }}
+{% endblock head_title %}
+
+
+{% block content %}
+
+    <section class="profile">
+        
+        <div class="container">
+            <div class="content">
+                <div class="card">
+                    <h2 class="card-header text-white bg-dark"><i class="fas fa-user"></i> {{ user.username }}</h2>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="row">
+                        
+                        <div class="profile_pic col-md-5">
+                            
+                            {% if user.profile.image.url %}
+                            <img class="img-fluid" src="{{ user.profile.image.url }}">
+                            {% else %}
+                            <img class="img-fluid" src="{% static 'img/no-photo.png' %}">
+                            {% endif %}
+                                
+                        </div><!-- profile_pic -->
+                        
+                        <div class="card-body col-md-7">
+                            <h5 class="card-title"><i class="fas fa-info-circle"></i>&nbsp; Your Info</h5>
+                            <hr>
+                            <p class="card-text"><span>Username:</span> {{ user.username }}</p>
+                            <p class="card-text"><span>Full Name:</span> {{ user.first_name }} {{ user.last_name }}</p>
+                            <p class="card-text"><span>Email:</span> {{ user.email }}</p>
+                            <p class="card-text"><span>Job Title:</span> {{ user.profile.job_title }}</p>
+                            <p class="card-text"><span>Bio:</span> {{ user.profile.bio }}</p>
+                            <p class="card-text"><span>Password:</span> 
+                                <i class="fas fa-circle"></i>
+                                <i class="fas fa-circle"></i>
+                                <i class="fas fa-circle"></i>
+                                <i class="fas fa-circle"></i>
+                                <i class="fas fa-circle"></i>
+                                <i class="fas fa-circle"></i>
+                                <i class="fas fa-circle"></i>
+                                <i class="fas fa-circle"></i>
+                                <i class="fas fa-circle"></i>
+                            </p>
+                            <a href="{% url 'accounts:profile_edit' %}" class="btn btn-primary">Edit Info</a>&nbsp;
+                            <a href="{% url 'accounts:password_change' %}" class="btn btn-primary">Change Password</a>
+                        </div>
+                    </div><!-- row -->
+                    
+                    
+                    {% if request.user.is_authenticated %}
+                        <hr>
+                        <h2 style="margin-left: 20px;"><i class="fas fa-file-alt"></i> Posts By You</h2>
+                        <hr>
+                        <br>    
+
+                        {% for post in posts %}
+                            <div class="bd-callout bd-callout-success">
+                                <h4>{{ post.title }}</h4>
+                                <p>{{ post.content | truncatechars_html:120 }}</p>
+                                <br>
+                                <a href="{{ post.get_absolute_url }}" class="btn btn-primary" target="_blank">Read More &rarr;</a>
+                                <div class="card-footer text-muted" style="margin-top: 8px;">
+                                    <i class="fa fa-calendar-alt"></i>&nbsp;<span class="date">{{ post.time_stamp }}</span>&nbsp;
+                                    <!-- <span class="views_n">| <i class="fa fa-eye"></i> 235</span>&nbsp;&nbsp; -->
+                                    <span class="time_reading">
+                                        | <i class="far fa-clock"></i>&nbsp;Read Time: {% if post.read_time < 1 %} less than 1 Minute {% else %} {{ post.read_time }} Minute {% endif %}
+                                    </span>
+                                    {% if post.draft %}
+                                        <span class="btn btn-warning">Draft</span>
+                                    {% endif %}
+                                </div><!-- card-footer -->
+                            </div>
+                        {% endfor %}    
+                    
+                    {% endif %}
+
+                </div>
+
+            </div><!-- content -->
+        </div><!-- container -->
+    </section>    
+{% endblock content %}
+    
+
+
+
+{% block footer %}
+    
+{% endblock footer %}
+    
+
+<!-- 
+
+  -->
